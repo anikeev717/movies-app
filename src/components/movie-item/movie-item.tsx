@@ -34,11 +34,13 @@ export class MovieItem extends React.Component<GetMovieItem, ItemProps> {
             });
           };
 
-          const genresItems = genres.map((item) => (
-            <li key={item} className="genre-item">
-              {genresList[item]}
-            </li>
-          ));
+          const genresItems: JSX.Element[] = genres.map(
+            (item: number): JSX.Element => (
+              <li key={item} className="genre-item">
+                {genresList[item]}
+              </li>
+            )
+          );
 
           const { loading } = this.state;
           const showRating: number = rating || localRating[id];

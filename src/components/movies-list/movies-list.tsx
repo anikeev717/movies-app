@@ -7,9 +7,9 @@ export const MoviesList: React.FC<Record<string, never>> = () => {
   return (
     <MoviesAppConsumer>
       {({ elements, totalElements, loading, error, network }) => {
-        const willData = !(loading || error || !network || !totalElements);
+        const willData: boolean = !(loading || error || !network || !totalElements);
 
-        const moviesItems = elements.map((movie) => {
+        const moviesItems: JSX.Element[] = elements.map((movie): JSX.Element => {
           const { id } = movie;
           return (
             <li className="card" key={id}>

@@ -8,10 +8,11 @@ import { MoviesAppProvider } from '../movies-app-context/movies-app-context';
 import { MoviesSearchPage } from '../movies-search-page/movies-search-page';
 import { MoviesRatedListPage } from '../movies-rated-list-page/movies-rated-list-page';
 import { MoviesApi } from '../../services/movies-api/movies-api';
-import { NetworkStatus } from '../network-status/network-status';
 import { GetGenres, GetMovieItem } from '../../types/type';
 
-type AppState = {
+type LocalRating = { [key: string]: number };
+
+interface AppState {
   guestSessionId: string;
   genresList: GetGenres;
   error: boolean;
@@ -21,8 +22,8 @@ type AppState = {
   elements: GetMovieItem[];
   totalElements: number;
   currentPage: number;
-  localRating: { [key: string]: number };
-};
+  localRating: LocalRating;
+}
 
 export interface Context extends AppState {
   rateMovie: (guestSessionId: string, id: number, value: number) => Promise<void>;
@@ -75,10 +76,21 @@ export class App extends React.Component<Record<string, never>, AppState> {
       .getGenresList()
       .then((genresList) => this.setState({ genresList }))
       .catch(this.onError);
+
+    this.networkStatus();
   }
 
   onError = (): void => {
     this.setState({ error: true, loading: false });
+  };
+
+  networkStatus = (): void => {
+    window.ononline = (): void => {
+      this.networkSetState();
+    };
+    window.onoffline = (): void => {
+      this.networkSetState();
+    };
   };
 
   networkSetState = (): void => {
@@ -91,7 +103,7 @@ export class App extends React.Component<Record<string, never>, AppState> {
     try {
       await MoviesApi.addRate(guestSessionId, id, value);
       const { localRating } = this.state;
-      const updateLocalRating = JSON.parse(JSON.stringify(localRating));
+      const updateLocalRating: LocalRating = JSON.parse(JSON.stringify(localRating));
       updateLocalRating[id] = value;
       this.setState({ localRating: updateLocalRating });
     } catch {
@@ -148,7 +160,6 @@ export class App extends React.Component<Record<string, never>, AppState> {
               },
             ]}
           />
-          <NetworkStatus networkSetState={this.networkSetState} />
         </div>
       </MoviesAppProvider>
     );

@@ -255,7 +255,7 @@ label {
 }
 
 @media screen and (max-width: 990px) {
-  .app{
+  .app {
     max-width: 420px;
     padding-left: 16px;
     padding-right: 16px;
@@ -271,33 +271,38 @@ label {
   }
   .card-content {
     padding: 6px 10px;
-}
+  }
 
-.image-wrapper {
+  .image-wrapper {
     width: 60px;
     height: 90px;
     position: absolute;
-}
+  }
 
-.info {
-  width: 100%;
+  .info {
+    width: 100%;
     padding: 0;
-}
+  }
 
-.title, .genre-list, .date {margin-left: 70px;}
+  .title,
+  .genre-list,
+  .date {
+    margin-left: 70px;
+  }
 
-.description {
-  margin-top: 10px;
-}
+  .description {
+    margin-top: 10px;
+    height: auto;
+  }
 
-.ant-rate {
+  .ant-rate {
     position: absolute;
     bottom: 9px;
     right: 0;
-}
+  }
 
-.rate {
+  .rate {
     top: 0;
     right: 0;
-}
+  }
 }

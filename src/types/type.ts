@@ -15,33 +15,38 @@ export type GetMovies = {
   totalElements: number;
 };
 
-export type FetchedMovieItem = {
+type MovieBase = {
   id: number;
   title: string;
   overview: string;
+  rating: number;
+};
+
+export interface FetchedMovieItem extends MovieBase {
   release_date: string;
   poster_path: string;
   vote_average: number;
-  rating: number;
   genre_ids: number[];
   [key: string]: unknown;
-};
+}
 
-export type GetMovieItem = {
-  id: number;
-  title: string;
-  overview: string;
+ export interface GetMovieItem extends MovieBase {
   date: string;
   src: string;
   rateValue: string;
   rateColor: string;
-  rating: number;
   genres: number[];
-};
+}
+
+export type FetchedGenresItem = { id: number; name: string };
+
+export type FetchedGenresArray = FetchedGenresItem[];
 
 export type FetchedGenres = {
-  genres: { id: number; name: string }[];
+  genres: FetchedGenresArray;
 };
+
+export type GetGetresItem = [number, string];
 
 export type GetGenres = {
   [key: string]: string;
