@@ -134,8 +134,7 @@ export class App extends React.Component<Record<string, never>, AppState> {
       updateRatedMoviesList: this.updateRatedMoviesList,
       ...this.state,
     };
-    if (error)
-      return <Alert message="Ошибка" description="Произошла ошибка запроса к серверу!" type="error" showIcon />;
+    if (error) return <Alert message="Error" description="A server request error occurred!" type="error" showIcon />;
     return (
       <MoviesAppProvider value={context}>
         <div className="app">

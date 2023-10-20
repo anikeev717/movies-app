@@ -30,7 +30,7 @@ export interface FetchedMovieItem extends MovieBase {
   [key: string]: unknown;
 }
 
- export interface GetMovieItem extends MovieBase {
+export interface GetMovieItem extends MovieBase {
   date: string;
   src: string;
   rateValue: string;
