@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+p,
+a,
+ul,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+input,
+button {
+  border: none;
+}
+label {
+  cursor: pointer;
+}
+
+.app {
+  max-width: 1010px;
+  min-height: 100vh;
+  padding: 20px 36px 30px;
+  margin: 0 auto;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  width: 100%;
+  padding-bottom: 36px;
+}
+
+.search {
+  width: 100%;
+  height: calc(100vh - 122px);
+  font-family: 'Inter';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card {
+  width: 451px;
+  height: 280px;
+  flex-shrink: 0;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  background: #fff;
+  display: flex;
+  margin-top: 36px;
+  position: relative;
+}
+
+.card-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.image-wrapper {
+  width: 40%;
+  height: 100%;
+}
+
+.image {
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.info {
+  width: 60%;
+  height: 100%;
+  padding: 10px 20px 0 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.title {
+  height: 28px;
+  color: #000;
+  font-size: 20px;
+  line-height: 28px;
+  padding-right: 32px;
+  letter-spacing: -0.3px;
+  word-spacing: -2px;
+}
+.rate {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 8px;
+  border: 2px solid;
+  border-radius: 50%;
+}
+.date {
+  color: #827e7e;
+  line-height: 22px;
+}
+.genre-list {
+  display: flex;
+  height: 22px;
+  margin: 7.5px 0;
+}
+.genre-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  margin-right: 8px;
+  border-radius: 2px;
+  border: 1px solid #d9d9d9;
+  background: #fafafa;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.description {
+  width: 100%;
+  height: 129px;
+  color: #000;
+  line-height: 22px;
+  margin-bottom: 15px;
+}
+
+.ant-spin-spinning {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ant-spin-lg .ant-spin-dot {
+  font-size: 52px;
+}
+.ant-spin-lg .ant-spin-dot i {
+  width: 24px;
+  height: 24px;
+}
+.ant-alert {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 200px;
+  border-width: 2px;
+  padding: 24px;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+}
+
+.ant-alert-with-description .ant-alert-icon {
+  font-size: 48px;
+  margin-inline: 0;
+}
+
+.ant-alert-content {
+  text-align: center;
+  font-family: 'Inter';
+  font-style: normal;
+}
+
+.ant-alert-with-description .ant-alert-message {
+  font-size: 24px;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.8);
+  margin-top: 16px;
+}
+.ant-alert-with-description .ant-alert-description {
+  font-size: 16px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.5);
+}
+.search-form {
+  width: 100%;
+  height: 40px;
+}
+.search-input {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  padding: 9px 12px;
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+.ant-pagination {
+  padding-bottom: 18px;
+}
+
+.ant-pagination .ant-pagination-item a {
+  color: rgba(0, 0, 0, 0.65);
+  text-align: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  border: 2px solid#1890ff;
+  background-color: #1890ff;
+  transition: all 0.2s;
+}
+.ant-pagination .ant-pagination-item-active:hover {
+  background-color: #fff;
+}
+.ant-pagination .ant-pagination-item-active a {
+  color: #fff;
+}
+.ant-rate {
+  font-size: 15px;
+}
+.ant-tooltip .ant-tooltip-inner {
+  border-radius: 3px;
+  font-family: 'Inter';
+}
+
+@media screen and (max-width: 990px) {
+  .app{
+    max-width: 420px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .container {
+    justify-content: center;
+  }
+  .card {
+    width: 100%;
+    height: 245px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .card-content {
+    padding: 6px 10px;
+}
+
+.image-wrapper {
+    width: 60px;
+    height: 90px;
+    position: absolute;
+}
+
+.info {
+  width: 100%;
+    padding: 0;
+}
+
+.title, .genre-list, .date {margin-left: 70px;}
+
+.description {
+  margin-top: 10px;
+}
+
+.ant-rate {
+    position: absolute;
+    bottom: 9px;
+    right: 0;
+}
+
+.rate {
+    top: 0;
+    right: 0;
+}
+}
