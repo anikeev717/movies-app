@@ -12,6 +12,8 @@ import { GetGenres, GetMovieItem } from '../../types/type';
 
 type LocalRating = { [key: string]: number };
 
+console.log('test');
+
 interface AppState {
   guestSessionId: string;
   genresList: GetGenres;
