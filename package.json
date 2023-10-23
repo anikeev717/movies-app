@@ -59,14 +59,14 @@
     "eslint-plugin-prettier": "^5.0.0",
       "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "husky": "^8.0.0",
+    "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "3.0.3"
   },
   "author": "",
   "license": "ISC",
   "lint-staged": {
-    "./src/**/*.{ts,tsx}": [
+    "src/**/*.{ts,tsx}": [
       "npm run lint:fix",
       "npm run format"
     ]
