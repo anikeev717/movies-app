@@ -15,12 +15,12 @@ export type GetMovies = {
   totalElements: number;
 };
 
-type MovieBase = {
+interface MovieBase {
   id: number;
   title: string;
   overview: string;
   rating: number;
-};
+}
 
 export interface FetchedMovieItem extends MovieBase {
   release_date: string;

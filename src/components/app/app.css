@@ -307,4 +307,28 @@ label {
     top: 0;
     right: 0;
   }
+
+.ant-alert {
+  height: auto;
+}
+
+.ant-alert-with-description .ant-alert-icon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.ant-alert-with-description .ant-alert-message {
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+}
+
+@media screen and (max-height: 480px) {
+  .ant-alert {
+    top: unset;
+    bottom: 0;
+    transform: translate(-50%, 0%);
+  }
 }

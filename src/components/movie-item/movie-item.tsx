@@ -11,7 +11,7 @@ type MovieItemState = { loading: boolean; imgError: boolean };
 export class MovieItem extends React.Component<GetMovieItem, MovieItemState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps: GetMovieItem = {
-    src: '../movies-app-context/movies-app-context',
+    src: defaultSrc,
     title: 'Title not specified',
     date: 'Date not specified',
     overview: `Description not specified`,
