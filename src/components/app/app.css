@@ -51,7 +51,7 @@ label {
   padding-bottom: 36px;
 }
 
-.search {
+.page {
   width: 100%;
   height: calc(100vh - 122px);
   font-family: 'Inter';
@@ -329,28 +329,5 @@ label {
     top: unset;
     bottom: 0;
     transform: translate(-50%, 0%);
-  }
-}
-
-@media screen and (max-height: 320px) {
-  .ant-alert {
-    background: none;
-    border: none;
-    box-shadow: none;
-    width: 0;
-    height: 0;
-  }
-
-  .ant-alert-with-description .ant-alert-icon {
-    top: unset;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    font-size: 36px;
-  }
-
-  .ant-alert .ant-alert-content {
-    opacity: 0;
-    visibility: hidden;
   }
 }

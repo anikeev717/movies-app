@@ -87,7 +87,7 @@ export class MovieItem extends React.Component<MovieItemProps, MovieItemState> {
           const { loading, url } = this.state;
 
           const preloader: JSX.Element = <Spin size="large" />;
-          const targetImage: JSX.Element = !url ? preloader : <img className="image" src={url} alt="pic" />;
+          const targetImage: JSX.Element = !url ? preloader : <img className="image" src={url} alt={title} />;
 
           if (loading) return preloader;
 

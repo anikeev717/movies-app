@@ -5,10 +5,10 @@ import { Tabs, Alert } from 'antd';
 import './app.css';
 
 import { MoviesAppProvider } from '../movies-app-context/movies-app-context';
-import { MoviesSearchPage } from '../movies-search-page/movies-search-page';
-import { MoviesRatedListPage } from '../movies-rated-list-page/movies-rated-list-page';
 import { GetResourcesMethod, MoviesApi } from '../../services/movies-api/movies-api';
 import { GetGenres, GetMovieItem } from '../../types/type';
+import { MoviesList } from '../movies-list/movies-list';
+import { MoviesSearchForm } from '../movies-search-form/movies-search-form';
 
 type LocalRating = { [key: string]: number };
 
@@ -28,15 +28,15 @@ interface AppState {
 
 export interface Context extends AppState {
   rateMovie: (guestSessionId: string, id: number, value: number) => Promise<void>;
-  updateMoviesList: (guestSessionId: string, targetPage?: number) => void;
-  updateRatedMoviesList: (guestSessionId: string, targetPage?: number) => void;
+  updateSearch: (requestLine: string, targetPage?: number) => void;
+  updateRated: (guestSessionId: string, targetPage?: number) => void;
   getResources: (url: string, method?: GetResourcesMethod) => Promise<ResponseType>;
 }
 
 export class App extends React.Component<Record<string, never>, AppState> {
   movApi = new MoviesApi();
 
-  updateMoviesList = debounce((text: string, targetPage?: number): void => {
+  updateSearch = debounce((text: string, targetPage?: number): void => {
     this.findMovies(text, 'search', targetPage);
   }, 500);
 
@@ -129,25 +129,25 @@ export class App extends React.Component<Record<string, never>, AppState> {
       .catch(this.onError);
   };
 
-  updateRatedMoviesList = (guestSessionId: string, targetPage?: number): void => {
+  updateRated = (guestSessionId: string, targetPage?: number): void => {
     this.findMovies(guestSessionId, 'rated', targetPage);
   };
 
   updateActivePage = (activePage: string) => {
     const { requestLine, guestSessionId } = this.state;
     if (activePage === '1') {
-      this.updateMoviesList(requestLine);
+      this.updateSearch(requestLine);
     } else {
-      this.updateRatedMoviesList(guestSessionId);
+      this.updateRated(guestSessionId);
     }
   };
 
   render() {
-    const { error } = this.state;
+    const { error, requestLine, guestSessionId } = this.state;
     const context: Context = {
       rateMovie: this.rateMovie,
-      updateMoviesList: this.updateMoviesList,
-      updateRatedMoviesList: this.updateRatedMoviesList,
+      updateSearch: this.updateSearch,
+      updateRated: this.updateRated,
       getResources: this.movApi.getResources,
       ...this.state,
     };
@@ -167,12 +167,21 @@ export class App extends React.Component<Record<string, never>, AppState> {
               {
                 label: 'Search',
                 key: '1',
-                children: <MoviesSearchPage />,
+                children: (
+                  <div className="page">
+                    <MoviesSearchForm findMovies={this.updateSearch} />
+                    <MoviesList text={requestLine} findMovies={this.updateSearch} />
+                  </div>
+                ),
               },
               {
                 label: 'Rated',
                 key: '2',
-                children: <MoviesRatedListPage />,
+                children: (
+                  <div className="page">
+                    <MoviesList text={guestSessionId} findMovies={this.updateRated} />
+                  </div>
+                ),
               },
             ]}
           />
