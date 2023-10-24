@@ -21,28 +21,19 @@ export class MoviesApi {
     return body;
   }
 
-  getMovies = async (query: string, targetPage: number = 1): Promise<types.GetMovies> => {
-    const res: types.FetchedMovies = await this.getResources<types.FetchedMovies>(
-      `${MoviesApi.apiBase}search/movie?query=${query}&page=${targetPage}&api_key=${MoviesApi.apiKey}`
-    );
+  getMovies = async (text: string, type: 'search' | 'rated', targetPage: number = 1): Promise<types.GetMovies> => {
+    const url: string =
+      type === 'search'
+        ? `${MoviesApi.apiBase}search/movie?query=${text}&page=${targetPage}&api_key=${MoviesApi.apiKey}`
+        : `${MoviesApi.apiBase}guest_session/${text}/rated/movies?page=${targetPage}&api_key=${MoviesApi.apiKey}`;
+
+    const res: types.FetchedMovies = await this.getResources<types.FetchedMovies>(url);
     const movies: types.GetMovies = {
       elements: this.transformMoviesList(res.results),
       currentPage: res.page,
       totalElements: res.total_results,
     };
     return movies;
-  };
-
-  getRatedMovies = async (guestSessionId: string, targetPage: number = 1): Promise<types.GetMovies> => {
-    const res: types.FetchedMovies = await this.getResources<types.FetchedMovies>(
-      `${MoviesApi.apiBase}guest_session/${guestSessionId}/rated/movies?page=${targetPage}&api_key=${MoviesApi.apiKey}`
-    );
-    const ratedMovies: types.GetMovies = {
-      elements: this.transformMoviesList(res.results),
-      currentPage: res.page,
-      totalElements: res.total_results,
-    };
-    return ratedMovies;
   };
 
   async getGenresList(): Promise<types.GetGenres> {

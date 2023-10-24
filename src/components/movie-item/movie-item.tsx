@@ -77,7 +77,7 @@ export class MovieItem extends React.Component<GetMovieItem, MovieItemState> {
             )
           );
 
-          const showRating: number = rating || localRating[id];
+          const showRating: number = localRating[id] || rating;
 
           const { loading, url } = this.state;
 

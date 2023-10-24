@@ -23,6 +23,7 @@ interface AppState {
   totalElements: number;
   currentPage: number;
   localRating: LocalRating;
+  activeAppPage: string;
 }
 
 export interface Context extends AppState {
@@ -35,19 +36,7 @@ export class App extends React.Component<Record<string, never>, AppState> {
   movApi = new MoviesApi();
 
   updateMoviesList = debounce((text: string, targetPage?: number): void => {
-    this.setState({ loading: true, error: false });
-    this.movApi
-      .getMovies(text, targetPage)
-      .then(({ elements, totalElements, currentPage }) => {
-        this.setState({
-          elements,
-          totalElements,
-          currentPage,
-          loading: false,
-          requestLine: text,
-        });
-      })
-      .catch(this.onError);
+    this.findMovies(text, 'search', targetPage);
   }, 500);
 
   constructor(props: Record<string, never>) {
@@ -63,6 +52,7 @@ export class App extends React.Component<Record<string, never>, AppState> {
       totalElements: 0,
       currentPage: 1,
       localRating: {},
+      activeAppPage: '1',
     };
   }
 
@@ -78,6 +68,18 @@ export class App extends React.Component<Record<string, never>, AppState> {
       .catch(this.onError);
 
     this.networkStatus();
+  }
+
+  componentDidUpdate(prevProps: Readonly<Record<string, never>>, prevState: Readonly<AppState>): void {
+    const { network, activeAppPage, requestLine, guestSessionId } = this.state;
+    if (prevState.network === false && network === true) {
+      if (activeAppPage === '1') this.updateMoviesList(requestLine);
+      this.updateRatedMoviesList(guestSessionId);
+    }
+  }
+
+  componentDidCatch(): void {
+    this.onError();
   }
 
   onError = (): void => {
@@ -111,19 +113,27 @@ export class App extends React.Component<Record<string, never>, AppState> {
     }
   };
 
-  readonly updateRatedMoviesList = (guestSessionId: string, targetPage?: number): void => {
-    this.setState({ loading: true, error: false });
-    this.movApi
-      .getRatedMovies(guestSessionId, targetPage)
-      .then(({ elements, totalElements, currentPage }) => {
-        this.setState({
-          elements,
-          totalElements,
-          currentPage,
-          loading: false,
-        });
-      })
-      .catch(this.onError);
+  findMovies = (text: string, type: 'search' | 'rated', page?: number): void => {
+    const { error, network } = this.state;
+    if (!error && network) {
+      this.setState({ loading: true, error: false });
+      this.movApi
+        .getMovies(text, type, page)
+        .then(({ elements, totalElements, currentPage }) => {
+          this.setState({
+            elements,
+            totalElements,
+            currentPage,
+            loading: false,
+          });
+          if (type === 'search') this.setState({ requestLine: text });
+        })
+        .catch(this.onError);
+    }
+  };
+
+  updateRatedMoviesList = (guestSessionId: string, targetPage?: number): void => {
+    this.findMovies(guestSessionId, 'rated', targetPage);
   };
 
   render() {
@@ -144,6 +154,7 @@ export class App extends React.Component<Record<string, never>, AppState> {
               if (key === '2') {
                 this.updateRatedMoviesList(guestSessionId);
               } else this.updateMoviesList(requestLine);
+              this.setState({ activeAppPage: key });
             }}
             centered
             items={[
