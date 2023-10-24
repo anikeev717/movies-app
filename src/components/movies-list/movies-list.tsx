@@ -13,12 +13,12 @@ interface MoviesListProps {
 export const MoviesList: React.FC<MoviesListProps> = ({ findMovies, text }) => {
   return (
     <MoviesAppConsumer>
-      {({ elements, totalElements, currentPage, loading, error, network }) => {
+      {({ elements, totalElements, currentPage, loading, error, network, getResources }) => {
         const moviesItems: JSX.Element[] = elements.map((movie): JSX.Element => {
           const { id } = movie;
           return (
             <li className="card" key={id}>
-              <MovieItem {...movie} />
+              <MovieItem {...movie} getResources={getResources} />
             </li>
           );
         });

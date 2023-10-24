@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import type * as types from '../../types/type';
 
 type RateColor = '#E90000' | '#E97E00' | '#E9D100' | '#66E900';
+export type GetResourcesMethod = 'json' | 'blob';
 
 export class MoviesApi {
   static apiBase: string = 'https://api.themoviedb.org/3/';
@@ -10,14 +11,14 @@ export class MoviesApi {
   static apiKey: string = process.env.REACT_APP_API_KEY!;
 
   // eslint-disable-next-line class-methods-use-this
-  async getResources<ResponseType>(url: string): Promise<ResponseType> {
+  async getResources<ResponseType>(url: string, method: GetResourcesMethod = 'json'): Promise<ResponseType> {
     const res = await fetch(url);
 
     if (!res.ok) {
       throw new Error(`Could not fetch data from ${url} Received status ${res.status}`);
     }
 
-    const body: ResponseType = await res.json();
+    const body: ResponseType = method === 'json' ? await res.json() : await res.blob();
     return body;
   }
 

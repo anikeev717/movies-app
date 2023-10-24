@@ -7,7 +7,7 @@ import './app.css';
 import { MoviesAppProvider } from '../movies-app-context/movies-app-context';
 import { MoviesSearchPage } from '../movies-search-page/movies-search-page';
 import { MoviesRatedListPage } from '../movies-rated-list-page/movies-rated-list-page';
-import { MoviesApi } from '../../services/movies-api/movies-api';
+import { GetResourcesMethod, MoviesApi } from '../../services/movies-api/movies-api';
 import { GetGenres, GetMovieItem } from '../../types/type';
 
 type LocalRating = { [key: string]: number };
@@ -30,6 +30,7 @@ export interface Context extends AppState {
   rateMovie: (guestSessionId: string, id: number, value: number) => Promise<void>;
   updateMoviesList: (guestSessionId: string, targetPage?: number) => void;
   updateRatedMoviesList: (guestSessionId: string, targetPage?: number) => void;
+  getResources: (url: string, method?: GetResourcesMethod) => Promise<ResponseType>;
 }
 
 export class App extends React.Component<Record<string, never>, AppState> {
@@ -147,6 +148,7 @@ export class App extends React.Component<Record<string, never>, AppState> {
       rateMovie: this.rateMovie,
       updateMoviesList: this.updateMoviesList,
       updateRatedMoviesList: this.updateRatedMoviesList,
+      getResources: this.movApi.getResources,
       ...this.state,
     };
     if (error) return <Alert message="Error" description="A server request error occurred!" type="error" showIcon />;

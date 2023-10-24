@@ -5,13 +5,18 @@ import { GetMovieItem } from '../../types/type';
 import { MoviesAppConsumer } from '../movies-app-context/movies-app-context';
 import { trimText } from '../../services/trim-text-function/trim-text-function';
 import defaultSrc from '../../assets/img/movie-item-default-image.jpg';
+import { GetResourcesMethod } from '../../services/movies-api/movies-api';
 
-type MovieItemState = {
+interface MovieItemProps extends GetMovieItem {
+  getResources: (url: string, method?: GetResourcesMethod) => Promise<ResponseType>;
+}
+
+interface MovieItemState {
   loading: boolean;
   url: string;
-};
+}
 
-export class MovieItem extends React.Component<GetMovieItem, MovieItemState> {
+export class MovieItem extends React.Component<MovieItemProps, MovieItemState> {
   // eslint-disable-next-line react/static-property-placement
   static defaultProps: GetMovieItem = {
     src: defaultSrc,
@@ -25,7 +30,7 @@ export class MovieItem extends React.Component<GetMovieItem, MovieItemState> {
     id: 0,
   };
 
-  constructor(props: GetMovieItem) {
+  constructor(props: MovieItemProps) {
     super(props);
     this.state = {
       loading: false,
@@ -39,10 +44,10 @@ export class MovieItem extends React.Component<GetMovieItem, MovieItemState> {
   }
 
   createImageUrl = (src: string): void => {
+    const { getResources } = this.props;
     if (src) {
-      fetch(src)
-        .then((resp) => resp.blob())
-        .then((image) => this.setState({ url: URL.createObjectURL(image) }))
+      getResources(src, 'blob')
+        .then((image) => this.setState({ url: URL.createObjectURL(image as unknown as Blob) }))
         .catch(() => this.setState({ url: defaultSrc }));
     } else this.setState({ url: defaultSrc });
   };
