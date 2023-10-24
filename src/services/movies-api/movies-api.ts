@@ -1,6 +1,5 @@
 import { format } from 'date-fns';
 
-import defaultSrc from '../../assets/img/movie-item-default-image.jpg';
 import type * as types from '../../types/type';
 
 type RateColor = '#E90000' | '#E97E00' | '#E9D100' | '#66E900';
@@ -91,8 +90,8 @@ export class MoviesApi {
     return body;
   };
 
-  imgBase: string = 'https://image.tmdb.org/t/p/w500';
-  // imgBase = 'https://image.tmdb.org/t/p/original';
+  // imgBase: string = 'https://image.tmdb.org/t/p/w500';
+  imgBase: string = 'https://image.tmdb.org/t/p/original';
 
   transformMoviesList(moviesArr: types.FetchedMovieItem[]): types.GetMovieItem[] {
     const transformMoviesArr: types.GetMovieItem[] = moviesArr.map(
@@ -130,7 +129,7 @@ export class MoviesApi {
       title,
       overview: overview || `Description of ${title} not specified.`,
       date: item.release_date ? format(new Date(item.release_date), 'MMMM d, yyyy') : 'Date not specified',
-      src: item.poster_path ? `${this.imgBase}${item.poster_path}` : defaultSrc,
+      src: item.poster_path ? `${this.imgBase}${item.poster_path}` : '',
       rateValue: MoviesApi.transformRate(item.vote_average),
       rateColor: MoviesApi.chooseRateColor(item.vote_average),
       rating: item.rating || 0,

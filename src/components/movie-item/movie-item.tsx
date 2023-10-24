@@ -1,12 +1,15 @@
 import React from 'react';
 import { Rate, Tooltip, Spin } from 'antd';
 
+import { GetMovieItem } from '../../types/type';
 import { MoviesAppConsumer } from '../movies-app-context/movies-app-context';
 import { trimText } from '../../services/trim-text-function/trim-text-function';
-import { GetMovieItem } from '../../types/type';
 import defaultSrc from '../../assets/img/movie-item-default-image.jpg';
 
-type MovieItemState = { loading: boolean; imgError: boolean };
+type MovieItemState = {
+  loading: boolean;
+  url: string;
+};
 
 export class MovieItem extends React.Component<GetMovieItem, MovieItemState> {
   // eslint-disable-next-line react/static-property-placement
@@ -26,31 +29,44 @@ export class MovieItem extends React.Component<GetMovieItem, MovieItemState> {
     super(props);
     this.state = {
       loading: false,
-      imgError: false,
+      url: '',
     };
   }
 
+  componentDidMount(): void {
+    const { src } = this.props;
+    this.createImageUrl(src);
+  }
+
+  createImageUrl = (src: string): void => {
+    if (src) {
+      fetch(src)
+        .then((resp) => resp.blob())
+        .then((image) => this.setState({ url: URL.createObjectURL(image) }))
+        .catch(() => this.setState({ url: defaultSrc }));
+    } else this.setState({ url: defaultSrc });
+  };
+
   render() {
-    const { src, title, date, genres, overview, rateValue, rateColor, rating, id } = this.props;
+    const { title, date, genres, overview, rateValue, rateColor, rating, id } = this.props;
 
     const trimTitle: string = trimText(title, 18);
-    const titleToolip: string | null = title.length > trimTitle.length ? title : null;
+    const titleTooltip: string | null = title.length > trimTitle.length ? title : null;
     const trimOverview: string = trimText(overview, 200);
 
     return (
       <MoviesAppConsumer>
         {({ guestSessionId, genresList, rateMovie, localRating }): JSX.Element => {
           const updateRating = (guestId: string, movieId: number, value: number): void => {
-            this.setState({
-              loading: true,
-            });
-            rateMovie(guestId, movieId, value).then(() => {
-              this.setState({ loading: false });
-            });
-          };
-
-          const onImgError = (): void => {
-            this.setState({ imgError: true });
+            const { loading } = this.state;
+            if (!loading && value !== localRating[id]) {
+              this.setState({
+                loading: true,
+              });
+              rateMovie(guestId, movieId, value).then(() => {
+                this.setState({ loading: false });
+              });
+            }
           };
 
           const genresItems: JSX.Element[] = genres.map(
@@ -61,23 +77,20 @@ export class MovieItem extends React.Component<GetMovieItem, MovieItemState> {
             )
           );
 
-          const { loading, imgError } = this.state;
           const showRating: number = rating || localRating[id];
+
+          const { loading, url } = this.state;
+
           const preloader: JSX.Element = <Spin size="large" />;
-          const defaultImage: JSX.Element | null = imgError ? (
-            <img className="image" src={defaultSrc} alt="pic" />
-          ) : null;
+          const targetImage: JSX.Element = !url ? preloader : <img className="image" src={url} alt="pic" />;
 
           if (loading) return preloader;
 
           return (
             <div className="card-content">
-              <div className="image-wrapper">
-                <img className="image" src={src} alt="pic" onError={onImgError} />
-                {defaultImage}
-              </div>
+              <div className="image-wrapper">{targetImage}</div>
               <div className="info">
-                <Tooltip title={titleToolip}>
+                <Tooltip title={titleTooltip}>
                   <h4 className="title">{trimTitle}</h4>
                 </Tooltip>
                 <span className="rate" style={{ borderColor: rateColor }}>
