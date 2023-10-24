@@ -43,7 +43,7 @@ label {
   padding: 20px 36px 30px;
   margin: 0 auto;
 }
-.container {
+.list {
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
@@ -63,6 +63,7 @@ label {
   flex-direction: column;
   align-items: center;
 }
+
 .card {
   width: 451px;
   height: 280px;
@@ -171,21 +172,16 @@ label {
   height: 24px;
 }
 .ant-alert {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
+  width: 100%;
   align-items: center;
-  width: 300px;
-  height: 200px;
   border-width: 2px;
   padding: 24px;
   box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  margin-top: 24px;
 }
 
 .ant-alert-with-description .ant-alert-icon {
+  position: absolute;
   font-size: 48px;
   margin-inline: 0;
 }
@@ -207,7 +203,7 @@ label {
   line-height: 22px;
   color: rgba(0, 0, 0, 0.5);
 }
-.search-form {
+.search{
   width: 100%;
   height: 40px;
 }
@@ -314,6 +310,7 @@ label {
 
   .ant-alert-with-description .ant-alert-icon {
     position: absolute;
+    font-size: 32px;
     top: 12px;
     left: 12px;
   }
@@ -321,13 +318,5 @@ label {
   .ant-alert-with-description .ant-alert-message {
     margin-bottom: 16px;
     margin-top: 0;
-  }
-}
-
-@media screen and (max-height: 480px) {
-  .ant-alert {
-    top: unset;
-    bottom: 0;
-    transform: translate(-50%, 0%);
   }
 }

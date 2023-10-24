@@ -27,7 +27,7 @@ export class MoviesSearchForm extends React.Component<MoviesFormProps, MoviesFor
 
     const { requestLine } = this.state;
     return (
-      <form className="search-form" onSubmit={onSubmit}>
+      <form className="search" onSubmit={onSubmit}>
         <input className="search-input" onChange={onValueChange} value={requestLine} placeholder="Type to search..." />
       </form>
     );

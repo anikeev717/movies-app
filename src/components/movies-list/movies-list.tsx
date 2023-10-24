@@ -25,7 +25,7 @@ export const MoviesList: React.FC<MoviesListProps> = ({ findMovies, text }) => {
 
         const moviesList = (
           <>
-            <ul className="container">{moviesItems}</ul>
+            <ul className="list">{moviesItems}</ul>
             <Pagination
               defaultPageSize={20}
               showSizeChanger={false}
