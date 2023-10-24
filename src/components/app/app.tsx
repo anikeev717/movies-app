@@ -23,7 +23,7 @@ interface AppState {
   totalElements: number;
   currentPage: number;
   localRating: LocalRating;
-  activeAppPage: string;
+  activePage: string;
 }
 
 export interface Context extends AppState {
@@ -52,7 +52,7 @@ export class App extends React.Component<Record<string, never>, AppState> {
       totalElements: 0,
       currentPage: 1,
       localRating: {},
-      activeAppPage: '1',
+      activePage: '1',
     };
   }
 
@@ -71,13 +71,9 @@ export class App extends React.Component<Record<string, never>, AppState> {
   }
 
   componentDidUpdate(prevProps: Readonly<Record<string, never>>, prevState: Readonly<AppState>): void {
-    const { network, activeAppPage, requestLine, guestSessionId } = this.state;
+    const { network, activePage } = this.state;
     if (prevState.network === false && network === true) {
-      if (activeAppPage === '1') {
-        this.updateMoviesList(requestLine);
-      } else {
-        this.updateRatedMoviesList(guestSessionId);
-      }
+      this.updateActivePage(activePage);
     }
   }
 
@@ -136,8 +132,17 @@ export class App extends React.Component<Record<string, never>, AppState> {
     this.findMovies(guestSessionId, 'rated', targetPage);
   };
 
+  updateActivePage = (activePage: string) => {
+    const { requestLine, guestSessionId } = this.state;
+    if (activePage === '1') {
+      this.updateMoviesList(requestLine);
+    } else {
+      this.updateRatedMoviesList(guestSessionId);
+    }
+  };
+
   render() {
-    const { guestSessionId, error, requestLine } = this.state;
+    const { error } = this.state;
     const context: Context = {
       rateMovie: this.rateMovie,
       updateMoviesList: this.updateMoviesList,
@@ -151,13 +156,9 @@ export class App extends React.Component<Record<string, never>, AppState> {
         <div className="app">
           <Tabs
             defaultActiveKey="1"
-            onChange={(key) => {
-              if (key === '2') {
-                this.updateRatedMoviesList(guestSessionId);
-              } else {
-                this.updateMoviesList(requestLine);
-              }
-              this.setState({ activeAppPage: key });
+            onChange={(activePage: string): void => {
+              this.updateActivePage(activePage);
+              this.setState({ activePage });
             }}
             centered
             items={[

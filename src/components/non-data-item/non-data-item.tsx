@@ -9,7 +9,7 @@ export const NonDataItem: React.FC<Record<string, never>> = () => (
   <MoviesAppConsumer>
     {({ loading, error, network, totalElements, requestLine }): JSX.Element => {
       const emptyAlert: NonData =
-        !totalElements && !loading && !error && network ? (
+        !requestLine && !loading && !error && network ? (
           <Alert message="Info" description="The results of your queries will appear here!" type="info" showIcon />
         ) : null;
 
