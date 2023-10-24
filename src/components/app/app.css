@@ -331,3 +331,25 @@ label {
     transform: translate(-50%, 0%);
   }
 }
+
+@media screen and (max-height: 240px) {
+  .ant-alert {
+    background: none;
+    border: none;
+    box-shadow: none;
+    width: 0;
+    height: 0;
+  }
+
+  .ant-alert-with-description .ant-alert-icon {
+    top: unset;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+  }
+
+  .ant-alert .ant-alert-content {
+    opacity: 0;
+    visibility: hidden;
+}
+}
