@@ -73,8 +73,11 @@ export class App extends React.Component<Record<string, never>, AppState> {
   componentDidUpdate(prevProps: Readonly<Record<string, never>>, prevState: Readonly<AppState>): void {
     const { network, activeAppPage, requestLine, guestSessionId } = this.state;
     if (prevState.network === false && network === true) {
-      if (activeAppPage === '1') this.updateMoviesList(requestLine);
-      this.updateRatedMoviesList(guestSessionId);
+      if (activeAppPage === '1') {
+        this.updateMoviesList(requestLine);
+      } else {
+        this.updateRatedMoviesList(guestSessionId);
+      }
     }
   }
 
@@ -114,22 +117,19 @@ export class App extends React.Component<Record<string, never>, AppState> {
   };
 
   findMovies = (text: string, type: 'search' | 'rated', page?: number): void => {
-    const { error, network } = this.state;
-    if (!error && network) {
-      this.setState({ loading: true, error: false });
-      this.movApi
-        .getMovies(text, type, page)
-        .then(({ elements, totalElements, currentPage }) => {
-          this.setState({
-            elements,
-            totalElements,
-            currentPage,
-            loading: false,
-          });
-          if (type === 'search') this.setState({ requestLine: text });
-        })
-        .catch(this.onError);
-    }
+    this.setState({ loading: true, error: false });
+    this.movApi
+      .getMovies(text, type, page)
+      .then(({ elements, totalElements, currentPage }) => {
+        this.setState({
+          elements,
+          totalElements,
+          currentPage,
+          loading: false,
+        });
+        if (type === 'search') this.setState({ requestLine: text });
+      })
+      .catch(this.onError);
   };
 
   updateRatedMoviesList = (guestSessionId: string, targetPage?: number): void => {
@@ -145,6 +145,7 @@ export class App extends React.Component<Record<string, never>, AppState> {
       ...this.state,
     };
     if (error) return <Alert message="Error" description="A server request error occurred!" type="error" showIcon />;
+
     return (
       <MoviesAppProvider value={context}>
         <div className="app">
@@ -153,7 +154,9 @@ export class App extends React.Component<Record<string, never>, AppState> {
             onChange={(key) => {
               if (key === '2') {
                 this.updateRatedMoviesList(guestSessionId);
-              } else this.updateMoviesList(requestLine);
+              } else {
+                this.updateMoviesList(requestLine);
+              }
               this.setState({ activeAppPage: key });
             }}
             centered
