@@ -72,8 +72,7 @@ export class MoviesApi {
     return body;
   };
 
-  imgBase: string = 'https://image.tmdb.org/t/p/w500';
-  // imgBase: string = 'https://image.tmdb.org/t/p/original';
+  imgBase: string = 'https://image.tmdb.org/t/p/w300';
 
   transformMoviesList(moviesArr: types.FetchedMovieItem[]): types.GetMovieItem[] {
     const transformMoviesArr: types.GetMovieItem[] = moviesArr.map(
