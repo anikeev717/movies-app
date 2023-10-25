@@ -1,12 +1,12 @@
 import React from 'react';
 
-type MoviesFormProps = {
+interface MoviesFormProps {
   findMovies: (requestLine: string, targetPage?: number) => void;
-};
+}
 
-type MoviesFormState = {
+interface MoviesFormState {
   requestLine: string;
-};
+}
 
 export class MoviesSearchForm extends React.Component<MoviesFormProps, MoviesFormState> {
   constructor(props: MoviesFormProps) {

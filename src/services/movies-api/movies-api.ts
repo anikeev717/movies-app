@@ -2,16 +2,13 @@ import { format } from 'date-fns';
 
 import type * as types from '../../types/type';
 
-type RateColor = '#E90000' | '#E97E00' | '#E9D100' | '#66E900';
-export type GetResourcesMethod = 'json' | 'blob';
-
 export class MoviesApi {
   static apiBase: string = 'https://api.themoviedb.org/3/';
 
   static apiKey: string = process.env.REACT_APP_API_KEY!;
 
   // eslint-disable-next-line class-methods-use-this
-  async getResources<ResponseType>(url: string, method: GetResourcesMethod = 'json'): Promise<ResponseType> {
+  async getResources<ResponseType>(url: string, method: types.GetResourcesMethod = 'json'): Promise<ResponseType> {
     const res = await fetch(url);
 
     if (!res.ok) {
@@ -42,7 +39,7 @@ export class MoviesApi {
       `${MoviesApi.apiBase}genre/movie/list?api_key=${MoviesApi.apiKey}`
     );
     const genresArr: types.FetchedGenresArray = res.genres;
-    const genresMap = genresArr.map((e: types.FetchedGenresItem): types.GetGetresItem => [e.id, e.name]);
+    const genresMap = genresArr.map((e: types.FetchedGenresItem): types.GetGenresItem => [e.id, e.name]);
     genresMap.push([-1, 'Genres not specified']);
     const genresList: types.GetGenres = Object.fromEntries(genresMap);
     return genresList;
@@ -56,14 +53,7 @@ export class MoviesApi {
   }
 
   static addRate = async (guestSessionId: string, movieId: number, rate: number): Promise<types.GetResponse> => {
-    const options: {
-      method: string;
-      headers: {
-        accept: string;
-        'Content-Type': string;
-      };
-      body: string;
-    } = {
+    const options: types.AddRateRequestOptions = {
       method: 'POST',
       headers: {
         accept: 'application/json',
@@ -97,8 +87,8 @@ export class MoviesApi {
     return transformedRate.includes('.') ? transformedRate.slice(0, 3) : `${transformedRate}.0`;
   }
 
-  static chooseRateColor(rate: number): RateColor {
-    let color: RateColor;
+  static chooseRateColor(rate: number): types.RateColor {
+    let color: types.RateColor;
     switch (true) {
       case rate < 3:
         color = '#E90000';

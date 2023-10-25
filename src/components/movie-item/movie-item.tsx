@@ -1,11 +1,10 @@
 import React from 'react';
 import { Rate, Tooltip, Spin } from 'antd';
 
-import { GetMovieItem } from '../../types/type';
+import { GetMovieItem, GetResourcesMethod } from '../../types/type';
 import { MoviesAppConsumer } from '../movies-app-context/movies-app-context';
 import { trimText } from '../../services/trim-text-function/trim-text-function';
 import defaultSrc from '../../assets/img/movie-item-default-image.jpg';
-import { GetResourcesMethod } from '../../services/movies-api/movies-api';
 
 interface MovieItemProps extends GetMovieItem {
   getResources: (url: string, method?: GetResourcesMethod) => Promise<ResponseType>;

@@ -5,8 +5,8 @@ import { Tabs, Alert } from 'antd';
 import './app.css';
 
 import { MoviesAppProvider } from '../movies-app-context/movies-app-context';
-import { GetResourcesMethod, MoviesApi } from '../../services/movies-api/movies-api';
-import { GetGenres, GetMovieItem } from '../../types/type';
+import { MoviesApi } from '../../services/movies-api/movies-api';
+import { GetGenres, GetMovieItem, GetResourcesMethod } from '../../types/type';
 import { MoviesList } from '../movies-list/movies-list';
 import { MoviesSearchForm } from '../movies-search-form/movies-search-form';
 
@@ -151,8 +151,12 @@ export class App extends React.Component<Record<string, never>, AppState> {
       getResources: this.movApi.getResources,
       ...this.state,
     };
-    if (error) return <Alert message="Error" description="A server request error occurred!" type="error" showIcon />;
-
+    if (error)
+      return (
+        <div className="main-alert">
+          <Alert message="Error" description="A server request error occurred!" type="error" showIcon />;
+        </div>
+      );
     return (
       <MoviesAppProvider value={context}>
         <div className="app">

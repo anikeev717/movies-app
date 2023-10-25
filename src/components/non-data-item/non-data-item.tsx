@@ -3,7 +3,7 @@ import { Spin, Alert } from 'antd';
 
 import { MoviesAppConsumer } from '../movies-app-context/movies-app-context';
 
-type NonData = null | JSX.Element;
+type NonData = JSX.Element | null;
 
 export const NonDataItem: React.FC<Record<string, never>> = () => (
   <MoviesAppConsumer>
@@ -29,11 +29,13 @@ export const NonDataItem: React.FC<Record<string, never>> = () => (
 
       return (
         <React.Fragment key="content">
-          {emptyAlert}
-          {dataAlert}
-          {errorAlert}
-          {networkAlert}
-          {preloader}
+          <div className="main-alert">
+            {emptyAlert}
+            {dataAlert}
+            {errorAlert}
+            {networkAlert}
+            {preloader}
+          </div>
         </React.Fragment>
       );
     }}
